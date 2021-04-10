@@ -12,6 +12,11 @@ export const InitIndex = async (
   index: string,
   dataObject: Mappings,
 ): Promise<Response> => {
+  let tmp: LooseObject = {};
+  dataObject.properties.forEach((e) => {
+    tmp.e[0] = e[1];
+  });
+
   let mappingsData: BodyInit = JSON.stringify({
     mappings: {
       properties: (dataObject),
@@ -29,8 +34,11 @@ export const InitIndex = async (
   return res;
 };
 
-export interface Mappings {
-  properties: [name: string, type: string];
+interface LooseObject {
+  [key: string]: any;
 }
-// Use an iterface to define properties to be defined in the init
-//
+export interface Mappings {
+  properties: Array<[name: string, type: string]>;
+}
+
+// Todo: needs testing on the loose object creation
